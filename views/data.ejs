@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <style>
+    nav a { margin-right: 10px; }
+    table, th, td {
+      border: 1px solid #000;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/home">Домашняя страница</a>
+    <a href="/about">Регистрация</a>
+    <a href="/contact">Доп. пространство</a>
+    <a href="/data">Учасники</a>
+    <a href="/calendar">Календарь</a>
+  </nav>
+  <h1>Список учеников</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(user) { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>

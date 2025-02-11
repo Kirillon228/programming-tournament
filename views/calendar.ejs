@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+</head>
+<body>
+  <nav>
+    <a href="/home">Домашняя страница</a>
+    <a href="/about">Регистрация</a>
+    <a href="/contact">Доп. пространство</a>
+    <a href="/data">Учасники</a>
+    <a href="/calendar">Календарь</a>
+  </nav>
+  <h1>Интерактивный календарь</h1>
+  <div id="calendar" style="max-width: 900px; margin: auto;"></div>
+
+  <!-- FullCalendar and interaction plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.11.3/main.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let calendarEl = document.getElementById('calendar');
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        selectable: true,
+        events: [
+          { id: '1', title: 'Встреча учеников', start: '2025-02-10T10:00:00' },
+          { id: '2', title: 'Тестовое событие', start: '2025-02-12T14:00:00' }
+        ],
+        // Function to add new events by selecting a time slot
+        select: function (info) {
+          let title = prompt('Впишите название нового события:');
+          if (title) {
+            calendar.addEvent({ 
+              title: title, 
+              start: info.startStr, 
+              end: info.endStr, 
+              allDay: info.allDay 
+            });
+          }
+          calendar.unselect();
+        },
+        // Function to handle event clicks: delete or edit the event
+        eventClick: function (info) {
+          // Ask the user if they want to delete the event.
+          if (confirm("Вы хотите удалить это событие? Нажмите 'OK' если хотите его удалить и 'Cancel' если хотите его отредактировать.")) {
+            // If OK is pressed, remove the event.
+            info.event.remove();
+          } else {
+            // Otherwise, prompt the user to edit the event title.
+            let newTitle = prompt('Отредактируйте название события:', info.event.title);
+            if (newTitle) {
+              info.event.setProp('title', newTitle);
+            }
+          }
+        }
+      });
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
